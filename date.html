@@ -68,9 +68,39 @@
             nextStep('screen2', 'screen3');
         }
 
-        function finish(food) {
-            alert('Отлично! Мы идем в ' + selectedPlace + ', и будем кушать ' + food + '. Жду с нетерпением!');
+        
+async function finish(food) {
+    const token = '8808617437:AAFxeTXfea9GM881TvQo1W4UZegTa7fs0sM'; 
+    const chatId = '2122599706';
+    const message = `Ура! Согласие! ❤️ Место: ${selectedPlace}, Еда: ${food}`;
+
+    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.ok) {
+            alert('Сообщение успешно отправлено! Жду встречи!');
+        } else {
+            console.error('Ошибка API:', data);
+            alert('Ошибка при отправке: ' + data.description);
         }
+    } catch (error) {
+        console.error('Ошибка сети:', error);
+        alert('Не удалось подключиться к серверу Telegram.');
+    }
+}
+
     </script>
 </body>
 </html>
