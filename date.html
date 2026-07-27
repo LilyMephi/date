@@ -18,6 +18,10 @@
 
     <!-- ЭКРАН 1: Вопрос -->
     <div id="screen1" class="box">
+      <img src="https://media.gifs.ru/d37f690803e6609fd3747527d1b2837bd76433e45ba61558ec74ff7814a4d072.gif" 
+     alt="Милая картинка" 
+     style="width: 250px; border-radius: 20px; margin-bottom: 20px;">
+
         <h1>Ты пойдешь со мной на свидание?</h1>
         <button id="yesBtn" class="btn" onclick="nextStep('screen1', 'screen2')">Да!</button>
         <button id="noBtn" class="btn" onmouseover="moveButton()">Нет</button>
@@ -27,7 +31,11 @@
     <div id="screen2" class="box hidden">
         <h1>Куда пойдем?</h1>
         <button class="btn option-btn" onclick="savePlace('Парк')">Парк 🌳</button>
+        <button class="btn option-btn" onclick="savePlace('Пруды')">Пруды 🏞️</button>
         <button class="btn option-btn" onclick="savePlace('Ресторан')">Ресторан 🍽️</button>
+        <button class="btn option-btn" onclick="savePlace('Скаладром')">Скаладром 🪨</button>
+        <button class="btn option-btn" onclick="savePlace('Дома')">Дома  🏡</button>
+
     </div>
 
     <!-- ЭКРАН 3: Выбор еды -->
@@ -36,6 +44,8 @@
         <button class="btn option-btn" onclick="finish('Пицца 🍕')">Пицца 🍕</button>
         <button class="btn option-btn" onclick="finish('Суши 🍣')">Суши 🍣</button>
         <button class="btn option-btn" onclick="finish('KFC 🍗')">KFC 🍗</button>
+        <button class="btn option-btn" onclick="finish('Новое место 🎁')">Новое место 🎁</button>
+
     </div>
 
     <script>
