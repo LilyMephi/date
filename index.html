@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Наше свидание</title>
+    <style>
+        body { height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #fff0f5; font-family: 'Arial', sans-serif; margin: 0; }
+        .hidden { display: none; }
+        .box { text-align: center; }
+        .btn { padding: 20px 50px; font-size: 24px; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; margin: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .btn:hover { transform: scale(1.1); }
+        #yesBtn { background-color: #4ade80; color: white; }
+        #noBtn { background-color: #f87171; color: white; position: relative; }
+        .option-btn { background-color: #60a5fa; color: white; min-width: 250px; display: block; margin: 15px auto; }
+    </style>
+</head>
+<body>
+
+    <!-- ЭКРАН 1: Вопрос -->
+    <div id="screen1" class="box">
+      <img src="https://media.gifs.ru/d37f690803e6609fd3747527d1b2837bd76433e45ba61558ec74ff7814a4d072.gif" 
+     alt="Милая картинка" 
+     style="width: 250px; border-radius: 20px; margin-bottom: 20px;">
+
+        <h1>Ты пойдешь со мной на свидание?</h1>
+        <button id="yesBtn" class="btn" onclick="nextStep('screen1', 'screen2')">Да!</button>
+        <button id="noBtn" class="btn" onmouseover="moveButton()">Нет</button>
+    </div>
+
+    <!-- ЭКРАН 2: Выбор места -->
+    <div id="screen2" class="box hidden">
+        <h1>Куда пойдем?</h1>
+        <button class="btn option-btn" onclick="savePlace('Парк')">Парк 🌳</button>
+        <button class="btn option-btn" onclick="savePlace('Пруды')">Пруды 🏞️</button>
+        <button class="btn option-btn" onclick="savePlace('Ресторан')">Ресторан 🍽️</button>
+        <button class="btn option-btn" onclick="savePlace('Скаладром')">Скаладром 🪨</button>
+        <button class="btn option-btn" onclick="savePlace('Дома')">Дома  🏡</button>
+
+    </div>
+
+    <!-- ЭКРАН 3: Выбор еды -->
+    <div id="screen3" class="box hidden">
+        <h1>Что будем кушать?</h1>
+        <button class="btn option-btn" onclick="finish('Пицца 🍕')">Пицца 🍕</button>
+        <button class="btn option-btn" onclick="finish('Суши 🍣')">Суши 🍣</button>
+        <button class="btn option-btn" onclick="finish('KFC 🍗')">KFC 🍗</button>
+        <button class="btn option-btn" onclick="finish('Новое место 🎁')">Новое место 🎁</button>
+
+    </div>
+
+    <script>
+        let selectedPlace = '';
+
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            btn.style.position = 'absolute';
+            btn.style.left = Math.random() * (window.innerWidth - 150) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 80) + 'px';
+        }
+
+        function nextStep(currentId, nextId) {
+            document.getElementById(currentId).classList.add('hidden');
+            document.getElementById(nextId).classList.remove('hidden');
+        }
+
+        function savePlace(place) {
+            selectedPlace = place;
+            nextStep('screen2', 'screen3');
+        }
+
+        
+async function finish(food) {
+    const token = '8808617437:AAFxeTXfea9GM881TvQo1W4UZegTa7fs0sM'; 
+    const chatId = '2122599706';
+    const message = `Ура! Согласие! ❤️ Место: ${selectedPlace}, Еда: ${food}`;
+
+    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.ok) {
+            alert('Сообщение успешно отправлено! Жду встречи!');
+        } else {
+            console.error('Ошибка API:', data);
+            alert('Ошибка при отправке: ' + data.description);
+        }
+    } catch (error) {
+        console.error('Ошибка сети:', error);
+        alert('Не удалось подключиться к серверу Telegram.');
+    }
+}
+
+    </script>
+</body>
+</html>
