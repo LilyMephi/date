@@ -2,70 +2,73 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Приглашение</title>
+    <title>Приглашение на свидание</title>
     <style>
-        body {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            background-color: #fff0f5;
-            font-family: sans-serif;
+        body { 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: #fff0f5; 
+            font-family: 'Arial', sans-serif; 
             margin: 0;
         }
-
-        .buttons {
-            display: flex;
-            gap: 20px;
-            margin-top: 20px;
-            /* Важно: задаем высоту контейнеру, чтобы кнопка не улетала в пустоту */
-            height: 60px;
-            align-items: center;
-        }
-
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        #yesBtn { background-color: #4ade80; color: white; }
+        .hidden { display: none; }
+        .box { text-align: center; }
         
-        /* Кнопка "Нет" теперь имеет относительное положение изначально */
-        #noBtn { 
-            background-color: #f87171; 
-            color: white; 
-            position: relative; 
+        /* Стили кнопок */
+        .btn { 
+            padding: 20px 50px; /* Делаем кнопку крупнее */
+            font-size: 24px;    /* Увеличиваем текст */
+            border: none; 
+            border-radius: 50px; /* Сильное скругление */
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            margin: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
+        
+        .btn:hover { transform: scale(1.1); }
+        
+        #yesBtn { background-color: #4ade80; color: white; }
+        #noBtn { background-color: #f87171; color: white; position: relative; }
+        .option-btn { background-color: #60a5fa; color: white; min-width: 200px; }
     </style>
 </head>
 <body>
 
-    <h1>Ты пойдешь со мной на свидание?</h1>
-    <div class="buttons">
-        <button id="yesBtn" onclick="alert('Ура!')">Да</button>
-        <button id="noBtn" onmouseover="moveButton()">Нет</button>
+    <div id="main-container" class="box">
+        <h1>Ты пойдешь со мной на свидание?</h1>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button id="yesBtn" class="btn" onclick="showMenu()">Да!</button>
+            <button id="noBtn" class="btn" onmouseover="moveButton()">Нет</button>
+        </div>
+    </div>
+
+    <div id="menu-container" class="box hidden">
+        <h1>Отлично! Куда пойдем?</h1>
+        <button class="btn option-btn" onclick="selectPlace('Парк')">Парк 🌳</button>
+        <button class="btn option-btn" onclick="selectPlace('Ресторан')">Ресторан 🍽️</button>
     </div>
 
     <script>
         function moveButton() {
             const btn = document.getElementById('noBtn');
-            
-            // Меняем позиционирование на абсолютное только при первом наведении
             btn.style.position = 'absolute';
-            
-            // Вычисляем случайные границы экрана
-            const padding = 50; // чтобы кнопка не уходила за края
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth - padding);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight - padding);
-            
+            // Добавим отступы, чтобы кнопка не улетала совсем за края
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 80);
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
+        }
+
+        function showMenu() {
+            document.getElementById('main-container').classList.add('hidden');
+            document.getElementById('menu-container').classList.remove('hidden');
+        }
+
+        function selectPlace(place) {
+            alert('Супер! Мы идем в: ' + place);
         }
     </script>
 </body>
